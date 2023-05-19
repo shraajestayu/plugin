@@ -25,15 +25,14 @@ IS_AUTOUSER = False
 @app.on_message(filters.command(AUTOCHAT_COMMAND) & filters.user(OWNER_ID))
 async def trigger(client, message: Message):
     get_option = message.text.split(None, 1)[1]
+    global IS_AUTOCHAT
     if "on" in get_option:
-        global IS_AUTOCHAT
         IS_AUTOCHAT = True
         await message.reply(f"Auto Chat Recovery Activated Now!\nThis Bot Will Recover All chats within 24hrs\n\nplugin by - Ayush")
     elif "off" in get_option:
         if IS_AUTOCHAT==False:
             await message.reply(f"HUH!\nThis option is not ON\nTRY - /autochat on\n\nplugin by - Ayush")
         else:
-            global IS_AUTOCHAT
             IS_AUTOCHAT = False
             await message.reply(f"Auto Chat Recovery Deactivated!")
     else:
