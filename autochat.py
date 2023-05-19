@@ -43,15 +43,14 @@ async def trigger(client, message: Message):
 @app.on_message(filters.command(AUTOUSER_COMMAND) & filters.user(OWNER_ID))
 async def trigger_user(client, message: Message):
     get_option = message.text.split(None, 1)[1]
+    global IS_AUTOUSER
     if "on" in get_option:
-        global IS_AUTOUSER
         IS_AUTOUSER = True
         await message.reply(f"Auto User Recovery Activated Now!\nThis Bot Will Recover All Users within 24hrs\n\nplugin by - Ayush")
     elif "off" in get_option:
         if IS_AUTOUSER==False:
             await message.reply(f"HUH!\nThis option is not ON\nTRY - /autouser on\n\nplugin by - Ayush")
         else:
-            global IS_AUTOUSER
             IS_AUTOUSER = False
             await message.reply(f"Auto User Recovery Deactivated!")
     else:
