@@ -4,6 +4,7 @@ from strings import get_command, get_string
 import config
 from config import OWNER_ID
 from AnonX import app
+from pyrogram.types import Message
 from AnonX.utils.database import (add_served_chat,
                                        add_served_user,
                                        get_served_chats,
@@ -17,7 +18,6 @@ AUTOCHAT_COMMAND = get_command("AUTOCHAT_COMMAND")
 AUTOUSER_COMMAND = get_command("AUTOUSER_COMMAND")
 
 IS_AUTOCHAT = False
-IS_AUTOUSER = False
 
 
 
@@ -40,46 +40,14 @@ async def trigger(client, message: Message):
 
 
 
-@app.on_message(filters.command(AUTOUSER_COMMAND) & filters.user(OWNER_ID))
-async def trigger_user(client, message: Message):
-    get_option = message.text.split(None, 1)[1]
-    global IS_AUTOUSER
-    if "on" in get_option:
-        IS_AUTOUSER = True
-        await message.reply(f"Auto User Recovery Activated Now!\nThis Bot Will Recover All Users within 24hrs\n\nplugin by - Ayush")
-    elif "off" in get_option:
-        if IS_AUTOUSER==False:
-            await message.reply(f"HUH!\nThis option is not ON\nTRY - /autouser on\n\nplugin by - Ayush")
-        else:
-            IS_AUTOUSER = False
-            await message.reply(f"Auto User Recovery Deactivated!")
-    else:
-        pass
-
-
-@app.on_message(filters.text)
-async def autouser_collect(client, message: Message):
-    if IS_AUTOUSER==True:
-        user_id = message.from_user.id
-        if user_id in await get_served_users():
-            pass
-        else:
-            await add_served_user(user_id)
-    else:
-        pass
-
-
-
-
-
 
 @app.on_message(filters.text & filters.group)
 async def autochat_ayu(client, message: Message):
     if IS_AUTOCHAT==True:
-        chat_id = message.chat.id
-        if chat_id in await get_served_chats():
+        chat_id_ayush = message.chat.id
+        if chat_id_ayush in await get_served_chats():
             pass
         else:
-            await add_served_chat(chat_id)
+            await add_served_chat(chat_id_ayush)
     else:
         pass
